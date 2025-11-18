@@ -1,0 +1,95 @@
+/* src/pages/RegisterPage.module.css */
+
+.formContainer {
+    padding: 20px;
+    max-width: 400px;
+    margin: 50px auto;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    color: #1e3a8a; /* Dark Blue */
+    margin-bottom: 25px;
+}
+
+.form {
+    border: none;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.inputGroup {
+    margin-bottom: 20px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151; /* Gray-700 */
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus {
+    border-color: #3b82f6; /* Blue-500 */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+.errorMsg {
+    color: #b91c1c; /* Red-700 */
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #fee2e2; /* Light Red */
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.successMsg {
+    color: #047857; /* Green-700 */
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #d1fae5; /* Light Green */
+    border: 1px solid #6ee7b7;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.submitButton {
+    margin-top: 25px;
+    padding: 14px;
+    width: 100%;
+    background-color: #3b82f6; /* Blue-500 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: #2563eb; /* Blue-600 */
+    transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+    background-color: #9ca3af; /* Gray-400 */
+    cursor: not-allowed;
+    transform: none;
+}
