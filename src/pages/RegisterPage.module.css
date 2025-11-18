@@ -1,95 +1,159 @@
 /* src/pages/RegisterPage.module.css */
 
 .formContainer {
-    padding: 20px;
-    max-width: 400px;
-    margin: 50px auto;
-    font-family: 'Inter', Arial, sans-serif;
+    /* 전체 페이지 중앙 정렬을 위해 max-width만 설정하고 마진은 auto */
+    max-width: 100vw;
+    min-height: 100vh;
+    padding-top: 50px; /* 상단 제목 공간 확보 */
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    position: relative; /* 홈 링크 absolute 기준점 */
+    background-color: #388E3C;
 }
 
-.title {
-    text-align: center;
-    color: #1e3a8a; /* Dark Blue */
-    margin-bottom: 25px;
+.homeLink {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #4CAF50; /* 연초록 계열 */
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s;
+}
+
+.homeLink:hover {
+    color: #81C784; /* 더 밝은 연두색 */
+    text-decoration: underline;
 }
 
 .form {
-    border: none;
+    background-color: #f7fff7; /* 매우 밝은 연두색 배경 */
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 90%; /* 화면 폭에 유연하게 대응 */
+    margin: 0 auto 50px auto; /* 중앙 정렬 및 하단 여백 */
+    display: flex;
+    flex-direction: column;
+}
+
+.form h2 {
+    text-align: center;
+    color: #388E3C; /* 진한 연초록 제목 */
+    margin-bottom: 25px;
+    font-size: 1.8em;
 }
 
 .inputGroup {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
 }
 
-.label {
-    display: block;
-    margin-bottom: 8px;
+.inputGroup label {
     font-weight: 600;
-    color: #374151; /* Gray-700 */
+    margin-bottom: 8px;
+    color: #388E3C;
+    font-size: 0.95em;
 }
 
-.input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.3s, box-shadow 0.3s;
+.inputGroup input[type="text"],
+.inputGroup input[type="email"],
+.inputGroup input[type="password"],
+.inputGroup textarea {
+    padding: 10px 12px;
+    border: 1px solid #C8E6C9; /* 연한 연초록 테두리 */
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #ffffff;
+    color:rgb(0, 0, 0)
 }
 
-.input:focus {
-    border-color: #3b82f6; /* Blue-500 */
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
     outline: none;
 }
 
-.errorMsg {
-    color: #b91c1c; /* Red-700 */
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #fee2e2; /* Light Red */
-    border: 1px solid #fca5a5;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
+.inputGroup textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
-.successMsg {
-    color: #047857; /* Green-700 */
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #d1fae5; /* Light Green */
-    border: 1px solid #6ee7b7;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
+.buttonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.button {
+    flex-grow: 1;
+    min-width: 40px;
+    padding: 8px 12px;
+    border: 1px solid #A5D6A7;
+    border-radius: 6px;
+    background-color: #E8F5E9; /* 기본 배경 연하게 */
+    color: #388E3C;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    font-weight: 500;
+}
+
+.button:hover:not(.buttonSelected) {
+    background-color: #C8E6C9; /* 호버 시 중간 연두색 */
+}
+
+.buttonSelected {
+    composes: button; /* 기본 button 스타일 상속 */
+    background-color: #4CAF50; /* 선택 시 진한 연초록 */
+    color: white;
+    border-color: #388E3C;
+    font-weight: 700;
 }
 
 .submitButton {
-    margin-top: 25px;
-    padding: 14px;
-    width: 100%;
-    background-color: #3b82f6; /* Blue-500 */
+    background-color: #4CAF50; /* 연초록 메인 버튼 */
     color: white;
+    padding: 12px;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
+    font-size: 1.1em;
     font-weight: 700;
-    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .submitButton:hover:not(:disabled) {
-    background-color: #2563eb; /* Blue-600 */
-    transform: translateY(-1px);
+    background-color: #388E3C;
 }
 
 .submitButton:disabled {
-    background-color: #9ca3af; /* Gray-400 */
+    background-color: #A5D6A7; /* 비활성화 시 연하게 */
     cursor: not-allowed;
-    transform: none;
+}
+
+.errorMsg {
+    color: #D32F2F; /* 빨간색 에러 */
+    background-color: #FFCDD2; /* 연한 빨간색 배경 */
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.successMsg {
+    color: #388E3C; /* 연초록 성공 */
+    background-color: #DCEDC8; /* 연한 연초록 배경 */
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 600;
 }
