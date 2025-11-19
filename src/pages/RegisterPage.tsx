@@ -15,29 +15,29 @@ interface RegisterFormData {
   password: string;
   introduction: string; // textarea
   contact: string;
-  level: string; // 1~5 중 하나
+  level: number; // 1~5 중 하나
 }
 
 // 초기 폼 데이터
-const initialFormData: RegisterFormData = { 
-    teamname: '', 
-    region: '', 
-    membercount: 0, 
-    activityday: '', 
-    email: '', 
-    password: '',
-    introduction: '', 
-    contact: '', 
-    level: '' 
+const initialFormData: RegisterFormData = {
+  teamname: '',
+  region: '',
+  membercount: 0,
+  activityday: '',
+  email: '',
+  password: '',
+  introduction: '',
+  contact: '',
+  level: 0
 };
 
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 const MEMBER_COUNTS = [5, 7, 11];
-const LEVELS = ['1', '2', '3', '4', '5']; // 문자열로 처리
+const LEVELS = [1, 2, 3, 4, 5];
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const { values, handleChange, setValues, resetForm } = useForm(initialFormData);
 
   // 상태 관리 (UI 피드백)
@@ -47,9 +47,10 @@ const RegisterPage: React.FC = () => {
 
   // 단일 선택 버튼 핸들러 (membercount, activityday, level 처리)
   const handleSelect = useCallback((name: keyof RegisterFormData, value: string | number) => {
+    
     setValues(prev => ({
-        ...prev,
-        [name]: value,
+      ...prev,
+      [name]: value,
     }));
   }, [setValues]);
 
@@ -62,41 +63,52 @@ const RegisterPage: React.FC = () => {
 
     // --- 클라이언트 측 유효성 검사 시작 ---
     if (!values.teamname.trim()) {
-        setError('팀 이름은 필수 입력 항목입니다.');
-        return;
+      setError('팀 이름은 필수 입력 항목입니다.');
+      return;
     }
     if (!values.region.trim()) {
-        setError('활동 지역은 필수 입력 항목입니다.');
-        return;
+      setError('활동 지역은 필수 입력 항목입니다.');
+      return;
     }
     if (values.activityday === '') {
-        setError('주요 활동 요일을 선택해야 합니다.');
-        return;
+      setError('주요 활동 요일을 선택해야 합니다.');
+      return;
     }
     // 이메일 형식 검사: 간단한 패턴 사용 (\S+@\S+\.\S+)
     if (!values.email.trim() || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(values.email)) {
-        setError('유효한 이메일 주소를 입력해야 합니다.');
-        return;
+      setError('유효한 이메일 주소를 입력해야 합니다.');
+      return;
     }
     if (values.password.length < 6) {
-        setError('비밀번호는 6자 이상이어야 합니다.');
-        return;
+      setError('비밀번호는 6자 이상이어야 합니다.');
+      return;
     }
     // --- 클라이언트 측 유효성 검사 끝 ---
 
-    
+
     setIsLoading(true);
 
     try {
       // API 호출 시 membercount는 숫자로 전송됩니다.
-      await apiClient.post('/auth/register', values);
-      
+      await apiClient.post('/api/auth/register', {
+        team_name: values.teamname,
+        region: values.region,
+        member_count: values.membercount,
+        activity_day: values.activityday,
+        email: values.email,
+        password: values.password,
+        introduction: values.introduction,
+        contact: values.contact,
+        level: values.level,
+      }
+      );
+
       setSuccessMessage('팀 가입이 성공적으로 완료되었습니다. 잠시 후 로그인 페이지로 이동합니다.');
       resetForm();
 
       // 성공 후 로그인 페이지로 자동 이동
       setTimeout(() => {
-          navigate('/login'); 
+        navigate('/login');
       }, 1500);
 
     } catch (err) {
@@ -119,7 +131,7 @@ const RegisterPage: React.FC = () => {
       </Link>
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>팀 가입</h2>
-        
+
         {/* 팀 이름 */}
         <div className={styles.inputGroup}>
           <label htmlFor="teamname">팀 이름(필수):</label>
@@ -133,7 +145,7 @@ const RegisterPage: React.FC = () => {
             placeholder="팀의 고유 이름을 입력하세요."
           />
         </div>
-        
+
         {/* 지역 */}
         <div className={styles.inputGroup}>
           <label htmlFor="region">활동 지역(필수):</label>
@@ -164,7 +176,7 @@ const RegisterPage: React.FC = () => {
             ))}
           </div>
         </div>
-        
+
         {/* 활동 요일 (선택) */}
         <div className={styles.inputGroup}>
           <label>주요 활동 요일(필수):</label>
@@ -195,7 +207,7 @@ const RegisterPage: React.FC = () => {
             placeholder="login@team.com"
           />
         </div>
-        
+
         {/* 비밀번호 */}
         <div className={styles.inputGroup}>
           <label htmlFor="password">비밀번호:</label>
@@ -209,7 +221,7 @@ const RegisterPage: React.FC = () => {
             placeholder="6자 이상이어야 합니다."
           />
         </div>
-        
+
         {/* 팀 소개 (Textarea) */}
         <div className={styles.inputGroup}>
           <label htmlFor="introduction">팀 소개:</label>
@@ -235,7 +247,7 @@ const RegisterPage: React.FC = () => {
             placeholder="대표 휴대폰 번호"
           />
         </div>
-        
+
         {/* 레벨 (선택) */}
         <div className={styles.inputGroup}>
           <label>실력 레벨 (1:초보 ~ 5:전문가):</label>
@@ -255,9 +267,9 @@ const RegisterPage: React.FC = () => {
 
         {error && <p className={styles.errorMsg}>🚨 {error}</p>}
         {successMessage && <p className={styles.successMsg}>✅ {successMessage}</p>}
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           disabled={isLoading}
           className={styles.submitButton}
         >
